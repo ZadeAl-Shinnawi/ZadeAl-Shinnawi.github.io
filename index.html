@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<title>Zade Al-Shinnawi</title>
@@ -21,8 +16,9 @@
 						<ul>
 							<li><a href="#intro">Welcome</a></li>
 							<li><a href="#one">Portfolio</a></li>
-							<li><a href="#two">Coursework</a></li>
-							<li><a href="#three">Get in touch</a></li>
+							<li><a href="#two">DevBlog</a></li>
+							<li><a href="#three">Background</a></li>
+							<li><a href="#four">Get in touch</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -33,9 +29,12 @@
 
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
+					<img src="images/me.png" alt="Scorch Engine Logo" data-position="top right"
+						width="200px"
+						height="200px" />
 						<div class="inner">
 							<h1>About Me</h1>
-							<p>I'm a senior at the University of Michigan studying Computer Science,<br \> set to graduate in May 2024 with a Bachelor of Science Engineering (BSE).<br \> My passion lies in <b>Computer Graphics Programming</b>, <b>Game Engine Architecture</b>,<br \> <b>Video Game Development</b>, and <b>GPU Programming</b>. Explore my projects and<br \> join me in the world of pixels and code. <a href="#three">Let's connect and collaborate</a>!</p>
+							<p>I'm a senior at the University of Michigan studying Computer Science,<br \> set to graduate in May 2024 with a Bachelor of Science Engineering (BSE).<br \> My passion lies in <b>Computer Graphics Programming</b>, <b>Game Engine Architecture</b>,<br \> <b>Video Game Development</b>, and <b>GPU Programming</b>. Explore my projects and<br \> join me in the world of pixels and code. <a href="#four">Let's connect and collaborate</a>!</p>
 							<ul class="actions">
 								<li><a href="#one" class="button scrolly">Learn more</a></li>
 							</ul>
@@ -45,37 +44,26 @@
 				<!-- One -->
 					<section id="one" class="wrapper style2 spotlights">
 						<section>
+							<a href="#" class="image"><img src="images/scorch_logo.png" alt="Scorch Engine Logo" data-position="top center" /></a>
+							<div class="content">
+								<div class="inner">
+									<h2>Scorch Rendering/Game Engine</h2>
+									<p>Scorch, built using C++ and OpenGL, is an in-progress game engine. It is intended to showcase a myriad of 											advanced techniques to deliver stunning visual experiences and harness the full potential to achieve 											real-time rendering of complex scenes, including dynamic lighting, realistic shadows, and high-quality 											textures. It is in the very early stages of development while I complete my senior year of college.
+									</p>
+									<ul class="actions">
+										<li><a href="scorch.html" class="button">Learn more</a></li>
+									</ul>
+								</div>
+							</div>
+						</section>
+						<section>
 							<a href="#" class="image"><img src="images/raytracer_image.png" alt="Ray Tracer Outpuy" data-position="center center" /></a>
 							<div class="content">
 								<div class="inner">
 									<h2>Ray Tracer</h2>
 									<p>I have developed a personal ray tracer project from the ground up in C++, driven by a desire to delve deep into the inner workings of modern ray tracing techniques. The ray tracer boasts several key features, including Multisample Anti-Aliasing (MSAA) for enhanced image quality, support for rendering diffuse, metal, and glass materials, and a customizable camera for positioning and capturing scenes. The rendered images are saved in .PPM format, preserving all image properties and intricacies. This project has been a valuable learning experience, providing insights into the intricacies of ray tracing algorithms and implementations.</p>
 									<ul class="actions">
-										<li><a href="generic.html" class="button">Learn more</a></li>
-									</ul>
-								</div>
-							</div>
-						</section>
-						<section>
-							<a href="#" class="image"><img src="images/scorch_logo.png" alt="Scorch Engine Logo" data-position="top center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>Scorch Game Engine</h2>
-									<p>Scorch, built using C++ and OpenGL, is a cutting-edge software masterpiece that pushes the boundaries of computer graphics. With a strong foundation in industry-standard technologies, it showcases a myriad of advanced techniques to deliver stunning visual experiences. Leveraging the power of OpenGL, it harnesses the full potential of modern GPUs to achieve real-time rendering of complex scenes, including dynamic lighting, realistic shadows, and high-quality textures. The Scorch engine implements a range of state-of-the-art rendering algorithms, such as physically-based rendering (PBR), deferred shading, and post-processing effects, to ensure unparalleled visual fidelity. Its flexibility and extensibility make it an ideal choice for game developers and graphics enthusiasts alike, empowering them to create immersive and visually striking virtual worlds.</p>
-									<ul class="actions">
-										<li><a href="generic.html" class="button">Learn more</a></li>
-									</ul>
-								</div>
-							</div>
-						</section>
-						<section>
-							<a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="25% 25%" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>Ultricies aliquam</h2>
-									<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
-									<ul class="actions">
-										<li><a href="generic.html" class="button">Learn more</a></li>
+										<li><a href="ray_tracer.html" class="button">Learn more</a></li>
 									</ul>
 								</div>
 							</div>
@@ -83,64 +71,127 @@
 					</section>
 
 				<!-- Two -->
-					<section id="two" class="wrapper style3 fade-up">
+					<section id="two" class="wrapper style2 spotlights">
+						<section>
+							<a href="#" class="image"><img src="images/codex.png" alt="Image of Codex" data-position="top center" /></a>
+							<div class="content">
+								<div class="inner">
+									<h2>DevBlog #1: Codex Craze (and bugs)</h2>
+									<p>During Sprint One, I worked heavily on the Project Multiply codex functionality as well as a myriad of bug fixes.</p>
+									<ul class="actions">
+										<li><a href="codex.html" class="button">Learn more</a></li>
+									</ul>
+								</div>
+							</div>
+						</section>
+					</section>
+
+				<!-- Three -->
+					<section id="three" class="wrapper style3 fade-up">
 						<div class="inner">
-							<h2>Coursework</h2>
-							<p>Below is an exhaustive list of my relevant course studies at the University of Michigan.</p>
+							<h2>Background</h2>
+							<p>Below is a little bit about my background.</p>
 							<div class="features">
 								<section>
 									<span class="icon solid major fa-code"></span>
-									<h3>Computer Science and Programming</h3>
+									<h3>Professional Experience</h3>
+									<h5>Lenovo - Software Engineer Intern (2022)</h5>
 									<ul>
-										<li>Data Structures and Algorithms</li>
-										<li>Applied Parallel Programming with GPUs</li>
-										<li>Programming Paradigms</li>
-										<li>Foundations of Computer Science</li>
-										<li>Database Management Systems</li>
-										<li>Data-Driven Applications</li>
+										<li>Developed an AR weather simulation app using Unity3D, Snapdragon Spaces API, Android devices, and Lenovo
+											ThinkReality glasses</li>
+										<li>Improved user experience by troubleshooting and debugging complex code; presented app to senior 												executives for positive feedback and adoption</li>
+									</ul>
+
+									<h5>WolverineSoft Studio (Game Development Club) - Programmer, QA Engineer (Current)</h5>
+									<ul>
+										<li>Contributed to diverse aspects of game development, including UI/UX functionality and bug fixes for a 											25-member multiplayer team using Unity</li>
+										<li>Utilized industry-standard tools like Jira, BitBucket, and Confluence for effective project management,
+											collaboration, and documentation</li>
 									</ul>
 								</section>
 								<section>
 									<span class="icon solid major fa-gamepad"></span>
-									<h3>Game Development and Computer Graphics</h3>
+									<h3>Relevant Coursework</h3>
 									<ul>
-										<li>Computer Graphics</li>
-										<li>Game Engine Architecture</li>
-										<li>Game Development</li>
-									</ul>
-								</section>
-								<section>
-									<span class="icon solid major fa-memory"></span>
-									<h3>Computer Architecture and Organization</h3>
-									<ul>
+										<li>Data Structures & Algorithms</li>
 										<li>Computer Organization</li>
-									</ul>
-								</section>
-								<section>
-									<span class="icon solid major fa-laptop-code"></span>
-									<h3>Web Development and Design</h3>
-									<ul>
-										<li>Web Design</li>
-									</ul>
-								</section>
-								<section>
-									<span class="icon solid major fa-infinity"></span>
-									<h3>Mathematics</h3>
-									<ul>
+										<li>Foundations of Computer Science</li>
+										<li>Game Development</li>
+										<li>Applied Parallel Programming with GPUs</li>
+										<li>Programming Paradigms</li>
+										<li>Database Management Systems</li>
+										<li>Data-Driven Applications</li>
+										<li>Web Development</li>
 										<li>Linear Algebra</li>
 										<li>Calculus I</li>
 										<li>Calculus II</li>
 										<li>Calculus III</li>
 										<li>Discrete Mathematics</li>
 										<li>Statistics & Data Analysis</li>
+										<li>Mechanics</li>
+										<li>Electromagnetism</li>
+										<li>Technical Communication I</li>
+										<li>Technical Communication II</li>
 									</ul>
 								</section>
 								<section>
-									<span class="icon solid major fa-magnet"></span>
-									<h3>Physics</h3>
+									<span class="icon solid major fa-memory"></span>
+									<h3>Programming Languages</h3>
 									<ul>
-										<li>Mechanics</li>
-										<li>Electromagnetism</li>
+										<li>C++</li>
+										<li>C#</li>
+										<li>C</li>
+										<li>Python</li>
+										<li>Java</li>
+										<li>SQL</li>
+										<li>R</li>
+										<li>MATLAB</li>
+										<li>Mathematica</li>
+										<li>Scheme</li>
+										<li>HTML/CSS</li>
+										<li>LaTeX</li>
+									</ul>
+								</section>
+								<section>
+									<span class="icon solid major fa-laptop-code"></span>
+									<h3>Libraries/Software</h3>
+									<ul>
+										<li>Unity</li>
+										<li>UE5</li>
+										<li>OpenGL</li>
+										<li>OpenCV</li>
+										<li>CUDA</li>
+										<li>SFML</li>
+										<li>SDL</li>
+										<li>Blender</li>
+									</ul>
+								</section>
+								<section>
+									<span class="icon solid major fa-wrench"></span>
+									<h3>Developer Tools</h3>
+									<ul>
+										<li>Git</li>
+										<li>GitHub</li>
+										<li>GitLab</li>
+										<li>BitBucket</li>
+										<li>Jira</li>
+										<li>Confluence</li>
+										<li>Visual Studio</li>
+										<li>VS Code</li>
+										<li>Ubuntu</li>
+										<li>IntelliJ</li>
+										<li>Eclipse</li>
+									</ul>
+								</section>
+								<section>
+									<span class="icon solid major fa-medal"></span>
+									<h3>Extracurriculars</h3>
+									<ul>
+										<li>MRun: University of Michigan Running Club</li>
+										<li>Division III NCAA Track and Field & Cross Country Athlete</li>
+										<li>WolverineSoft Studio: University of Michigan Game Development Club</li>
+										<li>AA-NAP: Ann Arbor Natural Area Preservation Volunteer</li>
+										<li>Nominee: University of Michigan Feinberg Family Prize for Excellence in Writing</li>
 									</ul>
 								</section>
 							</div>
@@ -150,11 +201,11 @@
 						</div>
 					</section>
 
-				<!-- Three -->
-					<section id="three" class="wrapper style1 fade-up">
+				<!-- Four -->
+					<section id="four" class="wrapper style1 fade-up">
 						<div class="inner">
 							<h2>Get in touch</h2>
-							<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+							<p>Message me anywhere, anytime!</p>
 							<div class="split style1">
 								<section>
 									<form method="post" action="#">
@@ -181,17 +232,16 @@
 									<ul class="contact">
 										<li>
 											<h3>Address</h3>
-											<span>12345 Somewhere Road #654<br />
-											Nashville, TN 00000-0000<br />
+											<span>Lansing, MI 48911<br />
 											USA</span>
 										</li>
 										<li>
 											<h3>Email</h3>
-											<a href="#">user@untitled.tld</a>
+											<a href="#">zadealshinnawi@gmail.com</a>
 										</li>
 										<li>
 											<h3>Phone</h3>
-											<span>(000) 000-0000</span>
+											<span>(517) 915-6769</span>
 										</li>
 										<li>
 											<h3>Social</h3>
