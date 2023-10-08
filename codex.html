@@ -27,9 +27,120 @@
 						<div class="inner">
 							<h1 class="major">DevBlog #1: Codex Craze (and bugs)</h1>
 							<span class="image fit"><img src="images/codex_long.png" alt="" /></span>
-							<p>Work description here...</p>
+							<h3>Summary:</h3>
+							<p>
+								During our first bi-weekly sprint, I worked primarily on the codex functionality in our game. I implemented features such as:
+								categorization, pagination, unit type scriptable object linking, and a notification system (with save features). Let's talk through
+								how each of them went!
+							</p>
 
-							<p>Time breakdown here...</p>
+							<h3>Categorization:</h3>
+
+							<span class="image fit"><img src="images/codex_categorization_1.png" alt="" /></span>
+
+							<p>
+								The codex originally looked like the image above. It was a bit unintuitive and unorganized, so I added codex entry categorization.
+								I began this task by first familiarizing myself with the following scripts: CodexEntry, CodexEntryButton, and CodexManager.
+								I first modified the CodexEntry script to include a "category" variable such as Unit, Commander, Special, Objective, etc.
+								Next, I got to work on the CodexManager script, which was where the bulk of my implementation went. I needed to sort codex entries
+								by category and display only the relevant ones depending on the button(s) the user selected. This took a bit to work through as
+								I had to familiarize myself with both TextMeshPro and the existing codex architecture. I've provided a small, code snippet below to
+								outline part of this process:
+							</p>
+
+							<span class="image fit"><img src="images/categorization_snippet.png" alt="" /></span>
+
+							<p>
+								Basically, how this works is in the Start() function, I load all codex entries into a list. Then, when the user clicks a category button
+								such as "Units", a list of all entries with that category ("Unit") are displayed. This created a much more user-friendly UI that was a
+								bit more intuitive. Here's what it looked like after!:
+							</p>
+
+							<span class="image fit"><img src="images/codex_categorization_after_1.png" alt="" /></span>
+							<span class="image fit"><img src="images/codex_categorization_after_2.png" alt="" /></span>
+
+							<p>
+								In the first image, the categories are displayed and in the second image, the entries of the selected category are displayed.
+								Then, I added placeholder text for the codex entries as they weren't yet written and that was a job for the design team. Once I did that,
+								I noticed that our units squad had implemented a myriad of new units that did not yet have codex entries. So, I added those as well, but
+								ran into an issue when there were too many units to display on screen at once. To solve this, I added a scroll bar if the number of
+								entries in a category cannot fit on screen. This can be seen below:
+							</p>
+
+							<span class="image fit"><img src="images/codex_scrollbar.png" alt="" /></span>
+
+							<p>The final change that I made was adding the categories to the top of the UI and the entries on the left-hand side like so:</p>
+
+							<span class="image fit"><img src="images/codex_lists.png" alt="" /></span>
+
+							<h3>Pagination:</h3>
+
+							<p>
+								My next major task was to implement pages for each codex entry that could be navigated through with arrows. My original implementation
+								of this was incorrect and wasted a bit of time. I originally set this up so that it used TextMeshPro's "Page" overflow mode. The way
+								that this works is if the amount of text on the first page overflows, it creates a new, second page to hold the overflow and so on for
+								any future pages. My understanding of this feature was a bit off, though, as the intent was to create a set number of pages (four), each
+								with a specific title and purpose. So, I had to overhaul my previous implementation. This overhaul ended up being a massive time sink as
+								I ran into a lot of tiny, TextMeshPro issues as well as a myriad of other display problems such as buttons not enabling text unless being
+								clicked multiple times. I worked through this by reading through the Unity TextMeshPro documentation and various other online threads
+								about it.
+							</p>
+
+							<p>
+								I began my overhaul by creating a Page struct in CodexEntry, each with a title, and a TextArea with body text:
+							</p>
+
+							<span class="image fit"><img src="images/codex_pages.png" alt="" /></span>
+
+							<p>
+								Then, in CodexManager, I created a "Next" and "Previous" button to scroll through the pages. I also created an "Exit" button as someone
+								reported a bug task on Jira that there was no current method of leaving the codex menu once you entered it! Here's what that looked
+								like when done:
+							</p>
+
+							<span class="image fit"><img src="images/codex_pagination.png" alt="" /></span>
+
+							<p>
+								My next major task was to link the Unit Type scriptable objects to the codex entries to display their stats information on their stats
+								pages. I did this by creating a list of Unit Types and loading all of the scriptable objects into it in the Start() function, similar to
+								how I load in the codex entries into a list. Then, in page two (the stats page) for each unit, I set the page text equal to all of
+								their stats information like below:
+							</p>
+
+							<span class="image fit"><img src="images/codex_stats.png" alt="" /></span>
+
+							<p>
+								My final task was to create notifications for unviewed codex entries that would be removed once a user had viewed them. This information
+								will then be stored per user and no notifications will be displayed if the given user has already viewed all codex entries. I worked on this
+								and I believe I have a working implementation, but am not able to test it at the moment due to our master branch account system being
+								broken which prevents me from logging in correctly.
+							</p>
+
+							<h3>Final Video:</h3>
+
+							<video width="320" height="240" controls="controls">
+								<source src="videos/codex_final.mp4" type="video/mp4" />
+							</video>
+
+							<p>
+								Overall, I think I got a lot of experience working with a large, existing codebase throughout this sprint as well as a greater
+								understanding of TextMeshPro and some UI elements as well. I'm excited to see the UI/UX team add nice visual aesthetics to my codex
+								functionality soon!
+							</p>
+
+							<h3>Two Week Time Breakdown:</h3>
+
+							<ul>
+								<li><strong>Studio Meetings</strong>: 4.5 Hours (One Meeting Ran Long)</li>
+								<li><strong>Studio Communication</strong>: 1 Hour</li>
+								<li><strong>Studio Documentation Reading (Confluence)</strong>: 1 Hour</li>
+								<li><strong>Categorization</strong>: 4 Hours</li>
+								<li><strong>Pagination (Including Rework)</strong>: 6.5 Hours</li>
+								<li><strong>Unit Type Scriptable Object Linking</strong>: 1.5 Hours</li>
+								<li><strong>Notification and Save Feature</strong>: 0.5 Hours</li>
+								<li><strong>Total</strong>: 19 Hours</li>
+							</ul>
+
 						</div>
 					</section>
 
