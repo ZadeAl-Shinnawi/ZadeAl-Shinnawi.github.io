@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DevBlog #2: Bugs!</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Zade Al-Shinnawi</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Bugs!</h1>
+							<span class="image fit"><img src="images/code_bug.png" alt="Image of Code Bug" /></span>
+							<h3>Summary:</h3>
+							<p>
+								During this week-long QA sprint and first half of a two-week-long feature sprint, I worked primarily on various bug fixes as we
+								were in a bug fix sprint. I worked on UI issues, AI issues, main menu bugs, and unit bugs. Let's talk through how each of them went!
+							</p>
+
+							<h3>Jira Bug Task Creation:</h3>
+
+							<span class="image fit"><img src="images/my_tasks.png" alt="" /></span>
+
+							<span class="image fit"><img src="images/qa_notes.png" alt="" /></span>
+
+							<p>
+								I began the week by sifting through all of the current bugs that had been created on Jira and comparing them with the QA notes that I
+								had taken for the week. Then, once I had identified the unique bugs, I created Jira tasks for each of them outlining a general description
+								and steps to recreate each of them. Our second week, however, we accomplished this much more efficiently. After our squad (single-player,
+								for me) meeting, all of the QA members met up and combined our notes, and then the QA lead, Morgan, created the Jira tasks accordingly.
+							</p>
+
+							<h3>Main Menu Exit Button:</h3>
+
+							<p>
+								This was extremely simple. We already had an exit button on the main menu, but it had no functionality. I quickly added a function that
+								called Application.Quit() and activated it when the button was clicked. Then, I created a build of the game (as this feature cannot be
+								tested in the Unity Editor) and tested the functionality and it worked great!
+							</p>
+
+							<video width="320" height="240" controls="controls">
+							<source src="videos/exit_button.mp4" type="video/mp4" />
+							</video>
+
+							<h3>UI and Scaling Fixes:</h3>
+
+							<p>
+								One pretty annoying issue was the fact that the "End Turn" button was extremely difficult to click as the hitbox seemed pretty far off.
+								To begin, I took a moment to familiarize myself with the UI system and how it was setup within the project. Then, I began modifying the
+								values for the "End Turn" button as well as anchoring it to specific spots on the screen to no avail. Then, I began inspecting the
+								buttons surrounding the "End Turn" button and quickly identified the problem. It turned out that the hitbox of the resource bar UI
+								(which was directly) above the "End Turn" button) was overlapping the "End Turn" button UI, so I resized that which fixed the issue.
+								After this, I made one minor UI change which was moving the tutorial dialogue to the bottom of the screen rather than in the center of
+								the screen as that wasn't great for visibility.
+							</p>
+
+							<h3>Various Currency Issues:</h3>
+
+							<p>
+								There are a few ways to gain currency in-game: you begin the game with some amount of currency, you gain some amount of currency per
+								turn always, and you gain some per city you own each turn. There were a handful of issues with this such as gaining double currency
+								per turn as well as gaining currency at the end of the enemy's turn rather than just your own. This ended up being a bit of a time sink
+								as I was unfamiliar with the systems that dealt with this and it turned out to be a bit harder to debug than I had anticipated. It seemed
+								like the currency was updated in a myriad of places which made it difficult to narrow down where these issues were occurring. However, after
+								reading the Confluence page that specifically outlined all of the ways in which currency could be gained, it gave me a bit more clarity
+								on how I should approach this. I eventually managed to identify which currency calls were being called multiple times through trial and error
+								and was able to fix this.
+							</p>
+
+							<h3>Other Minor UI Fixes:</h3>
+
+							<p>
+								These were extremely minor fixes, but the unit selection buttons in the UI creation menu had awkward hitboxes and they weren't very
+								UI friendly. So, I fixed the hitboxes and added details that changed the button colors when unselected, hovered over, and selected.
+								I also anchored the currency text correctly as it was previously slightly off.
+							</p>
+
+							<span class="image fit"><img src="images/unit_creation.png" alt="" /></span>
+
+							<h3>AI Unit Overlapping Bug</h3>
+
+							<span class="image fit"><img src="images/unit_overlap.png" alt="" /></span>
+
+							<p>
+								Prior to this, I had no experience working with the AI systems in our codebase, so this ended up taking a bit longer than I had originally
+								planned. So, I began by reading through the AI scripts and familiarizing myself with the workflow of the entire thing. My initial thinking
+								was that since this was only happening with AI units and not player units, that some check was in place to prevent player units from
+								moving to occupied tiles, but this check was not in place for AI units. This ended up being a dead end that I wasn't able to figure anything out
+								with. Then, I thought that there may be an issue with the fact that the AI was able to move all of its units concurrently, so maybe two units
+								would decide to move to the same tile at once. However, I looked into this and noticed that the end tile for a unit was immediately set to
+								occupied upon the beginning of their movement, so this couldn't be the issue.
+							</p>
+
+							<p>
+								After this, I began looking for more issues in the five, AI strategy scripts, specifically the ones that told the AI to move units around.
+								I tried to just simply add a check to the desired movement tile before moving to it in each of these scripts which seemed to work, but
+								caused the AI to stall randomly and sometimes indefinitely. I attempted to debug this and noticed that the AI was calling certain strategies
+								repeatedly. I contacted our programming department lead, Nikhil, as he was the one who wrote the AI scripts and told me that in addition
+								to adding this check, I should also set the "moved" bool of the unit to true as this was why the AI kept continuously calling the same
+								strategy - it would only stop once it thought it had moved. I did this and it fixed the issue!
+							</p>
+
+							<h3>Unit Attack Button Requiring Two Clicks</h3>
+
+							<video width="320" height="240" controls="controls">
+							<source src="videos/attack_button_bug.mp4" type="video/mp4" />
+							</video>
+
+							<p>
+								As you can see, the defending unit still has 100/100 health after the first "attack", but it decreases correctly to 70/100
+								after the second attack.
+							</p>
+
+							<p>
+								Initially, this bug was presented as only affecting the archer unit which threw me off when beginning my bug fix work. I began by
+								looking at the archer unit type scriptable object and comparing it to the other unit type scriptable objects as I couldn't understand
+								why this would only be happening with the archer and no other units. I didn't see any meaningful differences that could be causing this,
+								so I tried making minor changes just to make sure and wasn't able to narrow the issue down this way. Then, I began looking into the
+								Unit script which is currently over 700 lines long, so it took a bit to understand. However, there was nothing specific to archers in
+								this script, so I searched throughout the entire codebase for scripts that were specific to the archer and couldn't find any.
+								Then, I realized that this issue could be recreated with <em>any</em> unit, not just archers.
+							</p>
+
+							<p>
+								From there, I went back into the editor and began debugging once again. There were some poorly named variables in the Unit class which
+								made things a bit difficult, but I noticed a "selected" bool which ended up being where the issue was located. When you click on a unit,
+								the "selected" bool is set to true, however, after moving the unit, the selected value of that unit was set to false, but this was not
+								updated visually. So, if you tried to attack a unit without re-selecting the unit, then a non-selected or null unit would attack the defending
+								unit which would require the player to re-click on the unit and attack again. To fix this, I set the "selected" bool to true after unit movement
+								which keeps them selected for attacking immediately after.
+							</p>
+
+							<h3>Two Week Time Breakdown:</h3>
+
+							<ul>
+								<li><strong>Studio Meetings</strong>: 4.5 Hours (thirty-minute, separate QA meeting after the second studio meeting)</li>
+								<li><strong>Studio Communication & Documentation Reading (Confluence)</strong>: 1.5 Hours (UI/UX meeting & Codex documentation)</li>
+								<li><strong>Jira Bug/Task Identification & creation</strong>: 1 Hour</li>
+								<li><strong>Main Menu Exit Button</strong>: 0.5 Hours</li>
+								<li><strong>UI Fixes (end turn button & tutorial dialogue box)</strong>: 1 Hour</li>
+								<li><strong>Currency Fixes</strong>: 2.5 Hours</li>
+								<li><strong>More UI Fixes (unit creation UI & currency text)</strong>: 0.5 Hours</li>
+								<li><strong>AI Unit Overlap Bug</strong>: 3 Hours</li>
+								<li><strong>Attack Button Issues</strong>: 2.5 Hours</li>
+								<li><strong>Familiarizing myself with more aspects of the game (I had really only been focusing on my parts
+											of the game, so I played a few games to get a better idea of the entire thing)</strong>: 1 Hour</li>
+								<li><strong>Total</strong>: 18 Hours</li>
+							</ul>
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; 2023 Zade Al-Shinnawi. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
