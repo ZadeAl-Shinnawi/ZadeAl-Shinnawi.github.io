@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DevBlog #4: Polishing & Bug Fixes (11/19/2023)</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Zade Al-Shinnawi</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">DevBlog #4: Polishing & Bug Fixes (11/19/2023)</h1>
+							<span class="image fit"><img src="images/polish.jpg" alt="Image of Controller" /></span>
+							<h3>Summary:</h3>
+							<p>
+								This devblog consisted of polishing our game, finalizing features, as well as
+								bug finding and fixing.
+							</p>
+
+							<h3>Removing Unit Elemental Particle Effects & Refactoring:</h3>
+
+							<p>
+								When Project Multiply was created, there was originally a plan to incorporate an elemental system into the combat system.
+								It was going to be pretty standard - fire, water, earth, and wind, each with the usual strengths and weaknesses against each other.
+								When spawning a unit, the user would also select an element and the unit would spawn with a respectively colored icon beneath them
+								as well as some small particles beneath them with the same color. However, as the project grew and changed, this idea took a backseat
+								and began to make less sense as the development continued, so it ended up being cut.
+							</p>
+
+							<p>
+								I began by looking into the script that had the elemental particle system attached to it and removed the particle system. However, when
+								I looked at the rest of the script, I noticed that there was <i>a lot</i> of old, unused elemental system code. As I looked into
+								other parts of the codebase, I noticed more there as well. We even already had it tied to the battle system to calculate damage correctly.
+								So, I took the time to refactor everything and remove any dependencies which took quite a bit longer than I expected it to.
+							</p>
+
+							<span class="image fit"><img src="images/unit_particle_1.png" alt="Old Unit Elemental System" /></span>
+							<span class="image fit"><img src="images/unit_particle_2.png" alt="Old Unit Elemental Particles" /></span>
+
+							<h3>Right Click Exhausting Units Bug:</h3>
+
+							<p>
+								A bug report was listed on Jira that claimed right clicking directly on a unit would exhaust their movement instead of canceling their
+								current action. However, when I tested this, I was not able to reproduce the issue. I noticed that others has also been working on
+								similar functionality that also dealt with right clicking and canceling actions. So, after extensive testing, I assumed that someone else
+								must have fixed this (either inadvertently or on purpose), so I marked it as complete and we have not run into the issue again since
+								then.
+							</p>
+
+							<h3>Game Loading with Neither Player's Turn Active:</h3>
+
+							<p>
+								This has turned into a bit of a nagging issue. This was originally reported two weeks ago and I assigned the task to myself the night
+								before our weekly meeting. I began debugging the code using Visual Studio and the Unity Debugger without any success. The next day at
+								the playtest, I mentioned that I was working on it, but it seemed to have been fixed somehow, somewhere by someone, but no one knew who.
+								So, I marked the task as complete and began working on other features. However, this was re-opened recently and it seems to be happening
+								very rarely now, instead of every game. The issue is no longer assigned to me and, luckily, I have not run into this issue again since
+								I attempted to fix it for quite a bit two weeks ago.
+							</p>
+
+							<h3>Match Outcome UI Screen Issues:</h3>
+
+							<p>
+								The UI screen that pops up after a match is complete, either declaring a victory or a defeat, was basically impossible to read due to
+								some weird UI formatting, coloring, and hover effects. So, I went in and moved some things around and changed the colors up for better
+								visibility. I also ran into quite a few merge issues which made this take longer than it should have, but I was able to work through
+								them.
+							</p>
+
+							<span class="image fit"><img src="images/bad_match_outcome.png" alt="Bad UI" /></span>
+							<span class="image fit"><img src="images/good_match_outcome.png" alt="Good UI" /></span>
+
+							<h3>Loading a Single Player Game After a Previous Game Breaks the AI:</h3>
+
+							<p>
+								I've looked into this issue quite a bit, but haven't yet found the source of the error. This has been much tougher than it should be
+								because the AI was broken regardless in various places throughout the week which made it impossible to even complete a first game, win
+								or lose, let alone a second game. I couldn't even correctly set up the debugger to step through the code because I couldn't get to the
+								match finish scene in the current state of the master branch (for the match outcome UI work, I just enabled/disabled the panel).
+								However, lots of fixes are being made to the AI and I look forward to narrowing down this bug once those fixes are made and I can
+								actually step through the code, rather than guessing what might be happening.
+							</p>
+
+							<h3>Main Menu Scene Freezes After Creating a Lobby and Returning to It:</h3>
+
+							<p>
+								I was able to narrow this issue down pretty quickly, but unfortunately have not solved quite yet. It seems that we have a
+								PlayFabControls script that is marked DontDestroyOnLoad. When initially starting the game, this script is attached to the main menu
+								start functionality with all of its references correctly assigned. However, when exiting the room creation scene and going back to the
+								main menu scene, this script is missing and all of its references are missing as well. I'm pretty confident that I'll be able to solve
+								this quickly at the beginning of the next sprint now that I have located the source of the issue. I have attached a short video
+								showing what I mean below in the mean time.
+							</p>
+
+							<video width="320" height="240" controls="controls">
+								<source src="videos/menu_freeze.mp4" type="video/mp4" />
+							</video>
+
+							<h3>Bug Finding:</h3>
+
+							<p>
+								I found lots of bugs, sometimes I was looking for them and sometimes I was not. The notable ones were:
+							</p>
+
+							<ul>
+								<li>When you right click on a valid movement tile, the unit moves there instead of canceling their action</li>
+								<li>When your turn starts, sometimes you're not able to click on your unit to move or attack with them</li>
+								<li>Unit actions UI pops up for all units at once, including enemy units</li>
+								<li>AI was stalling for some unknown reason</li>
+								<li>AI was stalling due to city meshes not being correctly assigned</li>
+								<li>AI was stalling due to key locations not being correctly implemented</li>
+							</ul>
+
+							<p>
+								There was a lot of communication back and forth about some of these issues as they directly affected some of the tasks that I was working
+								on, so I was in contact with multiple team members to figure out the best way to move forward and navigate the bugs that I was able to
+								find.
+							</p>
+
+							<h3>Summary:</h3>
+
+							<p>
+								Overall, this week was a bit slower than usual, unfortunately, due to some difficult bugs in general, bugs unrelated to
+								my tasks that made them harder to complete, and some bugs seeming to disappear at times and only show up in certain circumstances
+								after we thought that they were solved. I'm excited with where I am currently at, though, and I think I should be able to finish up
+								some pretty annoying bug fixes in the coming week. I'm also really excited to see all aspects of the game really beginning to come
+								together and start to look more polished.
+							</p>
+
+							<h3>Two Week Time Breakdown:</h3>
+
+							<ul>
+								<li><strong>Studio Meetings</strong>: 5 Hours (one meeting ran <i>very</i> long & I had a separate, QA meeting after both weekly meetings)</li>
+								<li><strong>Documentation Reading (Confluence)</strong>: 1 Hour</li>
+								<li><strong>Studio Communication</strong>: 1 Hour</li>
+								<li><strong>Bug Finding</strong>: 1 Hour</li>
+								<li><strong>Elemental System Removal & Refactor</strong>: 2 Hours</li>
+								<li><strong>Right Click Exhaust Bug</strong>: 0.5 Hours</li>
+								<li><strong>Match Loading with Neither Player's Turn Active Bug</strong>: 3 Hours</li>
+								<li><strong>Match Outcome UI Fixes and Merge Conflicts</strong>: 1 Hour</li>
+								<li><strong>Single Player AI Breaking After Previous Game Bug</strong>: 2 Hours</li>
+								<li><strong>Main Menu Scene Freezing After Room Creation</strong>: 1.5 Hours</li>
+								<li><strong>Total</strong>: 18 Hours</li>
+							</ul>
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; 2023 Zade Al-Shinnawi. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
