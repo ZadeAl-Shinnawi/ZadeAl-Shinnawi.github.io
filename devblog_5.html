@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DevBlog #5: AI Player & Main Menu Bugs (12/3/2023)</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Zade Al-Shinnawi</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">DevBlog #5: AI Player & Main Menu Bugs (12/3/2023)</h1>
+							<span class="image fit"><img src="images/computer_crash.jpg" alt="Image of Computer Crash" /></span>
+							<h3>Summary:</h3>
+							<p>
+								This devblog consisted of only one week of work in which I fixed some gamebreaking issues related to the main menu
+								freezing and the AI player stalling indefinitely.
+							</p>
+
+							<h3>Main Menu Freeze Bug:</h3>
+
+							<p>
+								A bug was reported where the main menu would freeze after the user had entered the room creation screen and then clicked the back
+								arrow button and returned to the main menu. I began looking into this last week and noticed that a script attached to the main menu
+								canvas GameObject initially had all of its variables assigned correctly. However, after entering the room creation screen and returning
+								to the main menu, all of the variables were unassigned and null. So, I assumed the issue was here, but when I began looking into this issue
+								again this week, I was not able to re-create the bug. However, I did notice that when you returned back to the main menu screen now, the UI
+								was a bit off.
+							</p>
+
+							<span class="image fit"><img src="images/main_menu_ui_overlap.png" alt="Broken Main Menu UI" /></span>
+							<span class="image fit"><img src="images/main_menu_code.png" alt="Main Menu UI Code" /></span>
+
+							<p>
+								All of the game options would be listed (single player, multiplayer, options, codex, exit game), but the start screen text was also
+								enabled which overlapped the other UI elements. I don't have too much experience working with UI in the Unity Editor, so I tried looking
+								there for a bit for a method to disable the start screen text when the main menu buttons were active. Eventually, I ended up modifying the
+								main menu script so that anytime the main menu buttons are enabled, the start screen text is disabled.
+							</p>
+
+							<h3>AI Stalling After Consecutive Games:</h3>
+
+							<p>
+								When the user completed either a single player or multiplayer game (which worked successfully) and began a new, single player game,
+								the AI player would immediately stall indefinitely and break on their first turn. This was a pretty gamebreaking issue as it meant
+								that you couldn't play consecutive games without restarting the entire application in between. I was pretty lost on where exactly
+								to begin with this, but I noticed that as soon as the AI stalled, an error was output to the console. It was complaining about a
+								reference to a city being null as it had previously been destroyed.
+							</p>
+
+							<p>
+								I thought this was odd because all of the cities, and capitals, were still present in the game view as well as the hierarchy. They
+								also still functioned correctly on my end as I was able to spawn units normally and hover over cities like usual. So, the first thing
+								I tried was simply locating the line of code in the AIGameState script that called the city code where the issue occurred and just
+								checking if the city was null beforehand. I tested it and it worked, but I felt that it was sort of a hacky fix as it didn't make sense
+								why this would only be happening on games after the first.
+							</p>
+
+							<p>
+								So, I decided to print out the city count (which was stored in a list) when the AI called the buggy function. During the first playthrough,
+								it printed out eleven each time the function was called - nine cities and two capitals, so this made sense. On the second playthrough,
+								however, it printed out twenty-two, which was double the actual amount. This was interesting and definitely not a coincidence that the
+								AI thought the there were exactly two times the actual amount of cities. I figured that the cities must have been getting destroyed
+								and therefore null, but the AI did not know this and still tried to reference the cities from the previous game.
+							</p>
+
+							<span class="image fit"><img src="images/city_error_output.png" alt="City Error Output" /></span>
+
+							<p>
+								Finally, I decided to clear the spawned cities list when the game ended and noticed an OnGameEnd event in the script I was currently
+								working in, so I added it there. However, that event was never actually called, so I found another event related to the end of a game
+								which was also never called. I think our codebase may have used them at some point and then something changed, but they were never removed.
+								Anyways, I did eventually find the correct event that was called at the end of a game and I cleared the spawned cities list when it was
+								called. This finally fixed the issue and the AI worked as intended.
+							</p>
+
+							<span class="image fit"><img src="images/spawned_cities_list_clear.png" alt="City Code" /></span>
+
+							<h3>Summary:</h3>
+
+							<p>
+								Overall, this sprint was productive in that I fixed some pretty glaring bugs. Due to Thanksgiving Break, we only worked for one week
+								for this devblog instead of the usual two, but I'm still pretty happy with how it went.
+							</p>
+
+							<h3>Two Week Time Breakdown:</h3>
+
+							<ul>
+								<li><strong>Studio Meetings</strong>: 2 Hours</li>
+								<li><strong>Main Menu Freeze Bug</strong>: 3 Hours</li>
+								<li><strong>AI Stalling on Consecutive Games</strong>: 3 Hours</li>
+								<li><strong>Studio Communication</strong>: 1 Hour</li>
+								<li><strong>Total</strong>: 9 Hours</li>
+							</ul>
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; 2023 Zade Al-Shinnawi. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
